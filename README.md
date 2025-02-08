@@ -1,8 +1,5 @@
 # Core Notes Front-end
 
-GitHub Action CI:  
-[![Node.js CI](https://github.com/leandrocunha526/corelab-web-challenge/actions/workflows/node.js.yml/badge.svg)](https://github.com/leandrocunha526/corelab-web-challenge/actions/workflows/node.js.yml)
-
 ## About the project
 
 Aplication to help manage tasks and reminders.
