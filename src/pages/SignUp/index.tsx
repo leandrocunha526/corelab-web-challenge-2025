@@ -4,6 +4,7 @@ import AuthService from "./../../services/authService";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "./../../assets/notes.png";
 import { RiSendPlane2Fill } from "react-icons/ri";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Container = styled.div`
     display: flex;
@@ -155,13 +156,31 @@ const InfoText = styled.h3`
     }
 `;
 
+const ToggleButton = styled.button`
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+`;
+
+const InputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
+
 const SignUp = () => {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [password2, setPassword2] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(false); // Estado para controle de carregamento
+    const [loading, setLoading] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -246,18 +265,38 @@ const SignUp = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    <Input
-                        type="password"
-                        placeholder="Sua senha maior que 6 dígitos"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <Input
-                        type="password"
-                        placeholder="Confirme sua senha"
-                        value={password2}
-                        onChange={(e) => setPassword2(e.target.value)}
-                    />
+                    <InputWrapper>
+                        <Input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Sua senha maior que 6 dígitos"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <ToggleButton
+                            type="button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                            title="Mostrar senha"
+                        >
+                            {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20}
+                            />}
+                        </ToggleButton>
+                    </InputWrapper>
+                    <InputWrapper>
+                        <Input
+                            type={showConfirmPassword ? "text" : "password"}
+                            placeholder="Confirme sua senha"
+                            value={password2}
+                            onChange={(e) => setPassword2(e.target.value)}
+                        />
+                        <ToggleButton
+                            type="button"
+                            onClick={() => setShowConfirmPassword((prev) => !prev)}
+                            title="Mostrar senha"
+                        >
+                            {showConfirmPassword ? <FaEyeSlash size={20} /> : <FaEye size={20}
+                            />}
+                        </ToggleButton>
+                    </InputWrapper>
                     <Button type="submit" data-testid="submit-button" disabled={loading}>
                         {loading ? (
                             <Loading>Enviando...</Loading>

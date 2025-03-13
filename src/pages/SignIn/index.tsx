@@ -4,6 +4,7 @@ import AuthService from "./../../services/authService";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "./../../assets/notes.png";
 import { PiSignInFill } from "react-icons/pi";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 interface SignInProps {
     onLogin: (authenticated: boolean) => void;
@@ -160,15 +161,31 @@ const AlertBox = styled.div`
     text-align: center;
 `;
 
+const ToggleButton = styled.button`
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+`;
+
+const InputWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
+
 const SignIn: React.FC<SignInProps> = ({ onLogin }) => {
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Verifica se o usuário já está autenticado
         const token = localStorage.getItem("auth-token");
         const expiration = localStorage.getItem("token-expiration");
 
@@ -176,7 +193,6 @@ const SignIn: React.FC<SignInProps> = ({ onLogin }) => {
             const now = new Date();
             const expDate = new Date(expiration);
             if (now < expDate) {
-                // Se o usuário estiver autenticado, redireciona para o dashboard
                 navigate("/dashboard");
             }
         }
@@ -236,12 +252,22 @@ const SignIn: React.FC<SignInProps> = ({ onLogin }) => {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
-                    <Input
-                        type="password"
-                        placeholder="Sua senha"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                    <InputWrapper>
+                        <Input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Digite sua senha"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <ToggleButton
+                            type="button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                            title="Mostrar senha"
+                        >
+                            {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20}
+                            />}
+                        </ToggleButton>
+                    </InputWrapper>
                     <Button type="submit" disabled={isLoading}>
                         {isLoading ? (
                             <Loading>Entrando...</Loading>
