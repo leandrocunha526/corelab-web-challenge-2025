@@ -21,7 +21,6 @@ function Dashboard() {
             const data = response.data.tasks;
             if (Array.isArray(data)) {
                 setNote(data);
-                fetchNotes();
             } else {
                 console.error("Dados inesperados:", data);
             }
