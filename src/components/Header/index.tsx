@@ -10,18 +10,22 @@ import { useSelector, useDispatch } from "react-redux";
 import {
     Container,
     Content,
+    InputWrapper,
     Input,
+    SearchButton,
     Logo,
     Hand,
     Text,
     Profile,
     Dropdown,
     DropdownContent,
+    ColorButton,
 } from "./styles";
 import { INote } from "../../interfaces/INote";
 import LogoImg from "../../assets/notes.png";
 import SelectColor from "../SelectColor";
 import { setProfile } from "../../slices/userSlice";
+import { IoMdColorPalette } from "react-icons/io";
 
 interface HeaderProps {
     searchNote: (note: INote[]) => void;
@@ -39,14 +43,9 @@ const Header: React.FC<HeaderProps> = ({ findNotes, searchNote }) => {
         (state: { user: { profile: any } }) => state.user.profile
     );
 
-    const searchByNoteTitle = async (
-        e: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        const query = e.target.value;
-        setSearch(query);
-
+    const fetchSearchResults = async () => {
         try {
-            const response = await searchByTitle(query);
+            const response = await searchByTitle(search);
             searchNote(response.data.tasks);
             findNotes(true);
         } catch (error: Error | any) {
@@ -54,6 +53,12 @@ const Header: React.FC<HeaderProps> = ({ findNotes, searchNote }) => {
             if (error.message === "Request failed with status code 404") {
                 searchNote([]);
             }
+        }
+    };
+
+    const handleSearchClick = () => {
+        if (search.trim() !== "") {
+            fetchSearchResults();
         }
     };
 
@@ -109,15 +114,26 @@ const Header: React.FC<HeaderProps> = ({ findNotes, searchNote }) => {
             <Content>
                 <Logo src={LogoImg} />
                 <Text>CoreNotes</Text>
-                <Input
-                    type="text"
-                    placeholder="Digite ou use a lupa para cor"
-                    onChange={(e) => searchByNoteTitle(e)}
-                />
-                <Hand
-                    size={20}
+
+                <InputWrapper>
+                    <Input
+                        type="text"
+                        placeholder="Pesquisar notas"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                    <SearchButton onClick={handleSearchClick} title="Pesquisar">
+                        <Hand size={20} />
+                    </SearchButton>
+                </InputWrapper>
+
+                <ColorButton
                     onClick={() => setShowColorPicker(!showColorPicker)}
-                />
+                    title="Pesquisar por cor"
+                >
+                    <IoMdColorPalette size={20} />
+                </ColorButton>
+
                 {showColorPicker && (
                     <SelectColor
                         data={{ id: "color-picker" }}
@@ -126,16 +142,18 @@ const Header: React.FC<HeaderProps> = ({ findNotes, searchNote }) => {
                         onSelectColor={handleColorSelect}
                     />
                 )}
+
                 <Profile>
                     {profile && (
                         <>
                             <img
-                                src={
-                                  `https://ui-avatars.com/api/?name=${profile.username}`
-                                }
+                                src={`https://ui-avatars.com/api/?name=${profile.username}`}
                                 alt="Avatar"
                                 width={32}
-                                style={{ cursor: "pointer", borderRadius: "50%" }}
+                                style={{
+                                    cursor: "pointer",
+                                    borderRadius: "50%",
+                                }}
                                 onClick={() => setShowDropdown(!showDropdown)}
                                 onError={(e) => {
                                     console.error(
