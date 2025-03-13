@@ -29,7 +29,6 @@ export const FormCreateNote = () => {
             setTitle("");
             setColor("black");
             toast.success('Nota criada com sucesso!');
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: Error | any) {
             console.error(error);
             toast.error('Erro ao criar a nota.');
@@ -65,14 +64,14 @@ export const FormCreateNote = () => {
                 />
 
                 <Button type="submit" disabled={loading}>
-                        {loading ? (
-                            <Loading>Criando...</Loading>
-                        ) : (
-                            <>
-                                Criar tarefa
-                            </>
-                        )}
-                    </Button>
+                    {loading ? (
+                        <Loading>Criando...</Loading>
+                    ) : (
+                        <>
+                            Criar tarefa
+                        </>
+                    )}
+                </Button>
             </Form>
         </Container>
     );
