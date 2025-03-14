@@ -38,7 +38,7 @@ function Dashboard() {
     return (
         <>
             <Header searchNote={setSearch} findNotes={setFindByTitle} />
-            <FormCreateNote />
+            <FormCreateNote onNoteCreated={fetchNotes} />
             {findByTitle ? (
                 <Container>
                     <ContentNotes>
