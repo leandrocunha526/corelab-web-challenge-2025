@@ -162,19 +162,29 @@ const AlertBox = styled.div`
 `;
 
 const ToggleButton = styled.button`
-  position: absolute;
-  right: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-55%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    height: 100%;
+
+    svg {
+        color: #555;
+    }
 `;
 
+
 const InputWrapper = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
+    position: relative;
+    display: flex;
+    align-items: center;
 `;
 
 const SignIn: React.FC<SignInProps> = ({ onLogin }) => {
@@ -264,8 +274,11 @@ const SignIn: React.FC<SignInProps> = ({ onLogin }) => {
                             onClick={() => setShowPassword((prev) => !prev)}
                             title="Mostrar senha"
                         >
-                            {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20}
-                            />}
+                            {showPassword ? (
+                                <FaEyeSlash size={20} />
+                            ) : (
+                                <FaEye size={20} />
+                            )}
                         </ToggleButton>
                     </InputWrapper>
                     <Button type="submit" disabled={isLoading}>

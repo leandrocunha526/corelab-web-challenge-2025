@@ -11,7 +11,7 @@ const Container = styled.div`
     flex-direction: column;
     height: 100vh;
 
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
         flex-direction: row;
     }
 `;
@@ -27,7 +27,7 @@ const LeftSide = styled.div`
     text-align: center;
     padding: 20px;
 
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
         padding: 0;
     }
 `;
@@ -39,7 +39,7 @@ const LogoContainer = styled.div`
 const Logo = styled.img`
     max-width: 100px;
 
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
         max-width: 150px;
     }
 `;
@@ -48,7 +48,7 @@ const WelcomeText = styled.h1`
     font-size: 1.5rem;
     font-weight: bold;
 
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
         font-size: 2rem;
     }
 `;
@@ -151,25 +151,34 @@ const InfoText = styled.h3`
     color: #fff;
     margin-bottom: 20px;
 
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
         font-size: 1.2rem;
     }
 `;
 
 const ToggleButton = styled.button`
-  position: absolute;
-  right: 10px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-55%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    height: 100%;
+
+    svg {
+        color: #555;
+    }
 `;
 
 const InputWrapper = styled.div`
-  position: relative;
-  display: flex;
-  align-items: center;
+    position: relative;
+    display: flex;
+    align-items: center;
 `;
 
 const SignUp = () => {
@@ -231,10 +240,14 @@ const SignUp = () => {
             if (registered) {
                 navigate("/signin");
             } else {
-                setError("Erro ao tentar registrar ou usuário existente. Tente novamente.");
+                setError(
+                    "Erro ao tentar registrar ou usuário existente. Tente novamente."
+                );
             }
         } catch (error: any) {
-            setError("Erro ao tentar registrar. Verifique as informações e tente novamente.");
+            setError(
+                "Erro ao tentar registrar. Verifique as informações e tente novamente."
+            );
         } finally {
             setLoading(false); // Finaliza o carregamento
         }
@@ -277,8 +290,11 @@ const SignUp = () => {
                             onClick={() => setShowPassword((prev) => !prev)}
                             title="Mostrar senha"
                         >
-                            {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20}
-                            />}
+                            {showPassword ? (
+                                <FaEyeSlash size={20} />
+                            ) : (
+                                <FaEye size={20} />
+                            )}
                         </ToggleButton>
                     </InputWrapper>
                     <InputWrapper>
@@ -290,19 +306,31 @@ const SignUp = () => {
                         />
                         <ToggleButton
                             type="button"
-                            onClick={() => setShowConfirmPassword((prev) => !prev)}
+                            onClick={() =>
+                                setShowConfirmPassword((prev) => !prev)
+                            }
                             title="Mostrar senha"
                         >
-                            {showConfirmPassword ? <FaEyeSlash size={20} /> : <FaEye size={20}
-                            />}
+                            {showConfirmPassword ? (
+                                <FaEyeSlash size={20} />
+                            ) : (
+                                <FaEye size={20} />
+                            )}
                         </ToggleButton>
                     </InputWrapper>
-                    <Button type="submit" data-testid="submit-button" disabled={loading}>
+                    <Button
+                        type="submit"
+                        data-testid="submit-button"
+                        disabled={loading}
+                    >
                         {loading ? (
                             <Loading>Enviando...</Loading>
                         ) : (
                             <>
-                                <RiSendPlane2Fill size="15" style={{ marginRight: '5px' }} />
+                                <RiSendPlane2Fill
+                                    size="15"
+                                    style={{ marginRight: "5px" }}
+                                />
                                 Registrar
                             </>
                         )}
