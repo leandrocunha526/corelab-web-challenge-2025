@@ -54,7 +54,7 @@ const SelectColor: React.FC<SelectColorProps> = ({
     }, [colorsRef, setShow]);
 
     const handleColor = async (color: string) => {
-        console.log("cor:", color);
+        //console.log("cor:", color);
         setShow(false);
         onSelectColor(color);
     };
