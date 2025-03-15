@@ -20,7 +20,7 @@ describe('LoginForm', () => {
 
         // Preencher o formulário
         fireEvent.change(screen.getByPlaceholderText('Seu nome de usuário'), { target: { value: 'testuser' } });
-        fireEvent.change(screen.getByPlaceholderText('Sua senha'), { target: { value: 'password123' } });
+        fireEvent.change(screen.getByPlaceholderText('Digite sua senha'), { target: { value: 'password123' } });
 
         // Enviar o formulário
         fireEvent.click(screen.getByText('Entrar'));

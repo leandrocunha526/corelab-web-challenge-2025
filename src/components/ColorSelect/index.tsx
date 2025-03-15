@@ -9,9 +9,10 @@ interface ColorItem {
 }
 
 interface SelectColorProps {
-    data: { id: string };
+    data: { id: string; color: string };
     show: boolean;
     setShow: React.Dispatch<React.SetStateAction<boolean>>;
+    onUpdateColor: (id: string, color: string) => void;
 }
 
 const arrColors: ColorItem[] = [
@@ -29,7 +30,12 @@ const arrColors: ColorItem[] = [
     { id: 12, color: "#A99A7C" },
 ];
 
-const SelectColor: React.FC<SelectColorProps> = ({ data, show, setShow }) => {
+const SelectColor: React.FC<SelectColorProps> = ({
+    data,
+    show,
+    setShow,
+    onUpdateColor,
+}) => {
     const colorsRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -50,12 +56,14 @@ const SelectColor: React.FC<SelectColorProps> = ({ data, show, setShow }) => {
     }, [colorsRef, setShow]);
 
     const handleColor = async (color: string) => {
-        console.log("cor:", color);
+        if (color === data.color) return;
+
         setShow(false);
+        onUpdateColor(data.id, color);
+
         try {
             await updateColor(data.id, color);
             toast.success("Cor alterada com sucesso!");
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: Error | any) {
             console.log(error);
             toast.error("Erro ao alterar a cor!");

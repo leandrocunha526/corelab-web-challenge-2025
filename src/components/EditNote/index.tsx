@@ -7,10 +7,11 @@ interface EditNotesProps {
     data: { id: string };
     text: string;
     save: () => void;
+    onEdit: (id: string, newText: string) => void;
 }
 
-const EditNote: React.FC<EditNotesProps> = ({ data, text, save }) => {
-    const [newValue, setNewValue] = useState<string>(text); // Inicializa com o texto existente
+const EditNote: React.FC<EditNotesProps> = ({ data, text, save, onEdit }) => {
+    const [newValue, setNewValue] = useState<string>(text);
 
     const handleChange = (e: FormEvent<HTMLTextAreaElement>) => {
         setNewValue(e.currentTarget.value);
@@ -19,14 +20,15 @@ const EditNote: React.FC<EditNotesProps> = ({ data, text, save }) => {
     const edit = async (e: FormEvent) => {
         e.preventDefault();
 
-        if (!newValue.trim()) { // Verifica se o campo está vazio ou contém apenas espaços
+        if (!newValue.trim()) {
             toast.error("Campo não pode ficar vazio");
-            return; // Evita o envio do formulário
+            return;
         }
 
         try {
             const response = await updateNote(data.id, newValue);
             if (response.status === 200) {
+                onEdit(data.id, newValue);
                 save();
                 toast.success("Nota editada com sucesso!");
             }

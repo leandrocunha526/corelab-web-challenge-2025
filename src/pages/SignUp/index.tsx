@@ -4,13 +4,14 @@ import AuthService from "./../../services/authService";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "./../../assets/notes.png";
 import { RiSendPlane2Fill } from "react-icons/ri";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     height: 100vh;
 
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
         flex-direction: row;
     }
 `;
@@ -26,7 +27,7 @@ const LeftSide = styled.div`
     text-align: center;
     padding: 20px;
 
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
         padding: 0;
     }
 `;
@@ -38,7 +39,7 @@ const LogoContainer = styled.div`
 const Logo = styled.img`
     max-width: 100px;
 
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
         max-width: 150px;
     }
 `;
@@ -47,7 +48,7 @@ const WelcomeText = styled.h1`
     font-size: 1.5rem;
     font-weight: bold;
 
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
         font-size: 2rem;
     }
 `;
@@ -150,9 +151,34 @@ const InfoText = styled.h3`
     color: #fff;
     margin-bottom: 20px;
 
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
         font-size: 1.2rem;
     }
+`;
+
+const ToggleButton = styled.button`
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-58%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    height: 100%;
+
+    svg {
+        color: #555;
+    }
+`;
+
+const InputWrapper = styled.div`
+    position: relative;
+    display: flex;
+    align-items: center;
 `;
 
 const SignUp = () => {
@@ -161,7 +187,9 @@ const SignUp = () => {
     const [password2, setPassword2] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(false); // Estado para controle de carregamento
+    const [loading, setLoading] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -212,10 +240,14 @@ const SignUp = () => {
             if (registered) {
                 navigate("/signin");
             } else {
-                setError("Erro ao tentar registrar ou usuário existente. Tente novamente.");
+                setError(
+                    "Erro ao tentar registrar ou usuário existente. Tente novamente."
+                );
             }
         } catch (error: any) {
-            setError("Erro ao tentar registrar. Verifique as informações e tente novamente.");
+            setError(
+                "Erro ao tentar registrar. Verifique as informações e tente novamente."
+            );
         } finally {
             setLoading(false); // Finaliza o carregamento
         }
@@ -246,24 +278,59 @@ const SignUp = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
-                    <Input
-                        type="password"
-                        placeholder="Sua senha maior que 6 dígitos"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <Input
-                        type="password"
-                        placeholder="Confirme sua senha"
-                        value={password2}
-                        onChange={(e) => setPassword2(e.target.value)}
-                    />
-                    <Button type="submit" data-testid="submit-button" disabled={loading}>
+                    <InputWrapper>
+                        <Input
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Sua senha maior que 6 dígitos"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <ToggleButton
+                            type="button"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                            title="Mostrar senha"
+                        >
+                            {showPassword ? (
+                                <FaEyeSlash size={20} />
+                            ) : (
+                                <FaEye size={20} />
+                            )}
+                        </ToggleButton>
+                    </InputWrapper>
+                    <InputWrapper>
+                        <Input
+                            type={showConfirmPassword ? "text" : "password"}
+                            placeholder="Confirme sua senha"
+                            value={password2}
+                            onChange={(e) => setPassword2(e.target.value)}
+                        />
+                        <ToggleButton
+                            type="button"
+                            onClick={() =>
+                                setShowConfirmPassword((prev) => !prev)
+                            }
+                            title="Mostrar senha"
+                        >
+                            {showConfirmPassword ? (
+                                <FaEyeSlash size={20} />
+                            ) : (
+                                <FaEye size={20} />
+                            )}
+                        </ToggleButton>
+                    </InputWrapper>
+                    <Button
+                        type="submit"
+                        data-testid="submit-button"
+                        disabled={loading}
+                    >
                         {loading ? (
                             <Loading>Enviando...</Loading>
                         ) : (
                             <>
-                                <RiSendPlane2Fill size="15" style={{ marginRight: '5px' }} />
+                                <RiSendPlane2Fill
+                                    size="15"
+                                    style={{ marginRight: "5px" }}
+                                />
                                 Registrar
                             </>
                         )}

@@ -117,7 +117,7 @@ const Header: React.FC<HeaderProps> = ({ findNotes, searchNote }) => {
 
                 <InputWrapper>
                     <Input
-                        type="text"
+                        type="search"
                         placeholder="Pesquisar notas"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}

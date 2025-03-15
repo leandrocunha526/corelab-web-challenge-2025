@@ -7,13 +7,14 @@ import Modal from "../Modal";
 
 interface DeleteNoteProps {
     data: { id: string };
+    onDelete: (id: string) => void;
 }
 
 const Image = styled.img`
     cursor: pointer;
 `;
 
-const DeleteNote: React.FC<DeleteNoteProps> = ({ data }) => {
+const DeleteNote: React.FC<DeleteNoteProps> = ({ data, onDelete }) => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const openModal = () => {
@@ -28,6 +29,7 @@ const DeleteNote: React.FC<DeleteNoteProps> = ({ data }) => {
         try {
             await deleteNote(data.id);
             toast.success('Nota excluída com sucesso!');
+            onDelete(data.id);
             closeModal();
         } catch (error: Error | any) {
             toast.error('Erro ao excluir a nota.');
