@@ -32,11 +32,11 @@ export const Button = styled.button`
     cursor: pointer;
     margin-top: 5px;
     width: 110px;
-    background: #2ecc71;
+    background: #4a90e2;
     color: #ffffff;
     font-weight: bold;
     &:hover {
-        background: #1abc9c;
+        background: #357abd;
     }
     &:disabled {
         background-color: #a4c3e8;
