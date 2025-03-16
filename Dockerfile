@@ -11,4 +11,4 @@ COPY . .
 # Expose port
 EXPOSE 5173
 # Start the app
-CMD [ "yarn", "run", "dev", "--", "--host", "0.0.0.0" ]
+CMD [ "yarn", "run", "dev" ]
