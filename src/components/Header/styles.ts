@@ -101,11 +101,11 @@ export const Hand = styled(BiSearch)`
 export const Profile = styled.div`
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 18px;
     cursor: pointer;
     border-radius: 50%;
-    width: 32px;
-    height: 32px;
+    width: 15px;
+    height: 15px;
 `;
 
 export const Dropdown = styled.div`
