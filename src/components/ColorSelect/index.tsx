@@ -53,7 +53,7 @@ const SelectColor: React.FC<SelectColorProps> = ({
         return () => {
             document.removeEventListener("click", handleClickOutside, true);
         };
-    }, [colorsRef, setShow]);
+    }, [setShow]);
 
     const handleColor = async (color: string) => {
         if (color === data.color) return;
@@ -64,8 +64,8 @@ const SelectColor: React.FC<SelectColorProps> = ({
         try {
             await updateColor(data.id, color);
             toast.success("Cor alterada com sucesso!");
-        } catch (error: Error | any) {
-            console.log(error);
+        } catch (error: any) {
+            console.error(error);
             toast.error("Erro ao alterar a cor!");
         }
     };

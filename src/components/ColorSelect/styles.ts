@@ -1,33 +1,32 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
-interface ContainerProp {
-    $show: boolean
-}
-
-export const Container = styled.div<ContainerProp>`
-    display: ${(props) => (props.$show ? "block" : "none")};
+export const Container = styled.div<{ $show: boolean }>`
     position: absolute;
-    left: 30px;
-    top: 42px;
-
-    background: #FFFFFF;
-    border-radius: 9px;
-    border: 1px solid #D9D9D9;
-    box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.25);
-    width: 100%;
-    padding: 5px;
-`
-
-export const StyledColor = styled.div`
-    border-radius: 36px;
-    background-color: ${(props) => props.color};
-    width: 36px;
-    height: 36px;
-`
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: ${({ $show }) => ($show ? "flex" : "none")};
+    background: white;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+`;
 
 export const ContainerColor = styled.div`
     display: flex;
-    gap: 5px;
-    justify-content: space-between;
-    width: 100%;
-`
+    gap: 8px;
+`;
+
+export const StyledColor = styled.div<{ color: string }>`
+    width: 24px;
+    height: 26px;
+    border-radius: 50%;
+    background: ${({ color }) => color};
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+`;
