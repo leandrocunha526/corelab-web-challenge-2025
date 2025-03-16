@@ -1,14 +1,11 @@
-FROM node:22-alpine AS development
-ENV NODE_ENV development
-# Add a work directory
+FROM node:22-alpine
+
 WORKDIR /app
-# Cache and Install dependencies
-COPY package.json .
-COPY yarn.lock .
-RUN yarn
-# Copy app files
+
+COPY package.json yarn.lock ./
+
+RUN yarn install
+
 COPY . .
-# Expose port
+
 EXPOSE 5173
-# Start the app
-CMD [ "yarn", "run", "dev" ]
