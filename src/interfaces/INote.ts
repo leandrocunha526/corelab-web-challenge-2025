@@ -3,5 +3,5 @@ export interface INote {
     title: string;
     text: string;
     color: string;
-    isFavorite: boolean
+    isFavorite: boolean;
 }

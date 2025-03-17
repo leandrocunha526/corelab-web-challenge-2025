@@ -8,8 +8,8 @@ export const Icon = styled.div`
     cursor: pointer;
     width: 25px;
     height: 25px;
-`
+`;
 
 export const IconStar = styled(AiTwotoneStar)`
     color: pointer;
-`
+`;

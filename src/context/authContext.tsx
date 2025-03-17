@@ -1,5 +1,5 @@
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
-import AuthService from './../services/authService';
+import React, { createContext, useState, useEffect, ReactNode } from "react";
+import AuthService from "./../services/authService";
 
 interface AuthContextType {
     isAuthenticated: boolean;
@@ -10,7 +10,7 @@ interface AuthContextType {
 const defaultAuthContext: AuthContextType = {
     isAuthenticated: false,
     login: async () => false,
-    logout: () => {},
+    logout: () => { },
 };
 
 const AuthContext = createContext<AuthContextType>(defaultAuthContext);
@@ -20,11 +20,13 @@ interface AuthProviderProps {
 }
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(AuthService.isAuthenticated());
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
+        AuthService.isAuthenticated()
+    );
 
     useEffect(() => {
-        const token = localStorage.getItem('auth-token');
-        const expiration = localStorage.getItem('token-expiration');
+        const token = localStorage.getItem("auth-token");
+        const expiration = localStorage.getItem("token-expiration");
 
         if (token && expiration) {
             const now = new Date();
@@ -39,7 +41,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
     }, []);
 
-    const login = async (username: string, password: string): Promise<boolean> => {
+    const login = async (
+        username: string,
+        password: string
+    ): Promise<boolean> => {
         const success = await AuthService.login(username, password);
         setIsAuthenticated(success);
         return success;

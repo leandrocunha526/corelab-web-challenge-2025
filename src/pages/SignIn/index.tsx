@@ -180,7 +180,6 @@ const ToggleButton = styled.button`
     }
 `;
 
-
 const InputWrapper = styled.div`
     position: relative;
     display: flex;

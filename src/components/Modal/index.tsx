@@ -8,7 +8,7 @@ import {
     ModalHeader,
     ModalTitle,
     Overlay,
-    Alert
+    Alert,
 } from "./styles";
 
 interface ModalProps {

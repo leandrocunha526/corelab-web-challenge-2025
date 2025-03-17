@@ -21,8 +21,8 @@ function App() {
         checkAuthentication(); // Verifica o estado de autenticação inicial
 
         // Opcional: Configura um intervalo para verificar a autenticação periodicamente
-        const interval = setInterval(checkAuthentication, 60000); // Verifica a cada 60 segundos
-        return () => clearInterval(interval);
+        //const interval = setInterval(checkAuthentication, 60000); // Verifica a cada 60 segundos
+        //return () => clearInterval(interval);
     }, []);
 
     return (

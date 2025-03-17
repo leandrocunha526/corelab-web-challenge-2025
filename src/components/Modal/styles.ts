@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Overlay = styled.div<{ $isOpen: boolean }>`
-    display: ${props => (props.$isOpen ? 'flex' : 'none')};
+    display: ${(props) => (props.$isOpen ? "flex" : "none")};
     position: fixed;
     top: 0;
     left: 0;
@@ -71,7 +71,7 @@ export const ModalButton = styled.button<{ $primary?: boolean }>`
     border-radius: 0.3rem;
     cursor: pointer;
     font-size: 1rem;
-    background-color: ${props => (props.$primary ? '#dc3545' : '#6c757d')};
+    background-color: ${(props) => (props.$primary ? "#dc3545" : "#6c757d")};
     color: white;
 
     &:hover {

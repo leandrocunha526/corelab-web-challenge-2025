@@ -9,7 +9,10 @@ interface FavoriteNoteProps {
     onToggleFavorite: (id: string) => void;
 }
 
-const FavoriteNote: React.FC<FavoriteNoteProps> = ({ data, onToggleFavorite }) => {
+const FavoriteNote: React.FC<FavoriteNoteProps> = ({
+    data,
+    onToggleFavorite,
+}) => {
     const [isFavorite, setIsFavorite] = useState<boolean>(data.isFavorite);
 
     const handleFavorite = async () => {
@@ -24,7 +27,10 @@ const FavoriteNote: React.FC<FavoriteNoteProps> = ({ data, onToggleFavorite }) =
                     : "Nota removida dos favoritos com sucesso!"
             );
         } catch (error) {
-            toast.error(`Erro ao ${isFavorite ? "remover" : "adicionar"} nota aos favoritos.`);
+            toast.error(
+                `Erro ao ${isFavorite ? "remover" : "adicionar"
+                } nota aos favoritos.`
+            );
             console.error(error);
         }
     };
