@@ -11,5 +11,5 @@ export const Icon = styled.div`
 `;
 
 export const IconStar = styled(AiTwotoneStar)`
-    color: pointer;
+    cursor: pointer;
 `;
