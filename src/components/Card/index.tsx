@@ -11,7 +11,7 @@ import {
 } from "./styles";
 import ColorSelect from "../ColorSelect";
 import DeleteNote from "../DeleteNote";
-import FavoriteNote from "../FovoriteNote";
+import FavoriteNote from "../FavoriteNote";
 import Brush from "../../assets/brush.svg";
 import Color from "../../assets/color.svg";
 import { INote } from "../../interfaces/INote";
