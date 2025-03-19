@@ -38,7 +38,7 @@ Open the [layout mockup](https://www.figma.com/file/sQrUVHTlyogq3qGdkqGTXN/mocku
 ## Docker
 
 ```bash
-$ docker-compose -f docker-compose.yml up
+$ docker compose -f docker-compose.yml up
 ```
 
 or
