@@ -52,7 +52,17 @@ const Header: React.FC<HeaderProps> = ({ findNotes, searchNote }) => {
             console.error("Erro ao buscar notas:", error);
             if (error.message === "Request failed with status code 404") {
                 searchNote([]);
+                findNotes(false);
             }
+        }
+    };
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setSearch(value);
+
+        if (value.trim() === "") {
+            restoreOriginalNotes(); // Restaurar notas originais quando o campo estiver vazio
         }
     };
 
@@ -73,6 +83,17 @@ const Header: React.FC<HeaderProps> = ({ findNotes, searchNote }) => {
         } catch (error) {
             console.error("Erro ao buscar tarefas por cor:", error);
             searchNote([]);
+            findNotes(false);
+        }
+    };
+
+    const restoreOriginalNotes = async () => {
+        try {
+            const response = await getNotes();
+            searchNote(response.data.tasks);
+            findNotes(false);
+        } catch (error) {
+            console.error("Erro ao restaurar notas originais:", error);
         }
     };
 
@@ -95,19 +116,10 @@ const Header: React.FC<HeaderProps> = ({ findNotes, searchNote }) => {
     }, [dispatch]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await getNotes();
-                searchNote(response.data.tasks);
-            } catch (error) {
-                console.error("Erro ao buscar notas:", error);
-            }
-        };
-
         if (search === "" && !selectedColor) {
-            fetchData();
+            restoreOriginalNotes();
         }
-    }, [searchNote, search, selectedColor]);
+    }, [search, selectedColor]);
 
     return (
         <Container>
@@ -120,7 +132,7 @@ const Header: React.FC<HeaderProps> = ({ findNotes, searchNote }) => {
                         type="search"
                         placeholder="Pesquisar notas"
                         value={search}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={handleSearchChange}
                     />
                     <SearchButton onClick={handleSearchClick} title="Pesquisar">
                         <Hand size={20} />
