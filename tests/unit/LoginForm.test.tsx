@@ -19,15 +19,15 @@ describe('LoginForm', () => {
         );
 
         // Preencher o formulário
-        fireEvent.change(screen.getByPlaceholderText('Seu nome de usuário'), { target: { value: 'testuser' } });
-        fireEvent.change(screen.getByPlaceholderText('Digite sua senha'), { target: { value: 'password123' } });
+        fireEvent.change(screen.getByPlaceholderText('Seu e-mail'), { target: { value: 'testuser@testmail.com' } });
+        fireEvent.change(screen.getByPlaceholderText('Digite sua senha'), { target: { value: 'Password123' } });
 
         // Enviar o formulário
         fireEvent.click(screen.getByText('Entrar'));
 
         // Esperar a chamada da função de login e navegação
         await waitFor(() => {
-            expect(AuthService.login).toHaveBeenCalledWith('testuser', 'password123');
+            expect(AuthService.login).toHaveBeenCalledWith('testuser@testmail.com', 'Password123');
             expect(onLoginMock).toHaveBeenCalledWith(true);
         });
     });

@@ -18,17 +18,17 @@ describe('SignUp', () => {
         );
 
         // Preencher o formulário
-        fireEvent.change(screen.getByPlaceholderText('Nome de usuário maior que 6 dígitos'), { target: { value: 'testuser' } });
-        fireEvent.change(screen.getByPlaceholderText('Seu e-mail'), { target: { value: 'testuser@example.com' } });
-        fireEvent.change(screen.getByPlaceholderText('Sua senha maior que 6 dígitos'), { target: { value: 'password123' } });
-        fireEvent.change(screen.getByPlaceholderText('Confirme sua senha'), { target: { value: 'password123' } });
+        fireEvent.change(screen.getByPlaceholderText('Seu nome completo'), { target: { value: 'Test user' } });
+        fireEvent.change(screen.getByPlaceholderText('Seu e-mail'), { target: { value: 'testuser@testmail.com' } });
+        fireEvent.change(screen.getByPlaceholderText('Sua senha maior que 6 dígitos'), { target: { value: 'Password123' } });
+        fireEvent.change(screen.getByPlaceholderText('Confirme sua senha'), { target: { value: 'Password123' } });
 
         // Enviar o formulário usando data-testid
         fireEvent.click(screen.getByTestId('submit-button'));
 
         // Esperar a chamada da função de registro e navegação
         await waitFor(() => {
-            expect(AuthService.register).toHaveBeenCalledWith('testuser', 'testuser@example.com', 'password123');
+            expect(AuthService.register).toHaveBeenCalledWith('Test user', 'testuser@testmail.com', 'Password123');
         });
     });
 
@@ -48,9 +48,9 @@ describe('SignUp', () => {
         });
 
         // Preencher o formulário com senhas diferentes
-        fireEvent.change(screen.getByPlaceholderText('Nome de usuário maior que 6 dígitos'), { target: { value: 'testuser' } });
+        fireEvent.change(screen.getByPlaceholderText('Seu nome completo'), { target: { value: 'Test user' } });
         fireEvent.change(screen.getByPlaceholderText('Seu e-mail'), { target: { value: 'testuser@example.com' } });
-        fireEvent.change(screen.getByPlaceholderText('Sua senha maior que 6 dígitos'), { target: { value: 'password123' } });
+        fireEvent.change(screen.getByPlaceholderText('Sua senha maior que 6 dígitos'), { target: { value: 'Password123' } });
         fireEvent.change(screen.getByPlaceholderText('Confirme sua senha'), { target: { value: 'differentpassword' } });
 
         // Enviar o formulário
