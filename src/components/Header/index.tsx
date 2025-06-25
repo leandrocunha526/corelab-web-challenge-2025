@@ -26,6 +26,7 @@ import LogoImg from "../../assets/notes.png";
 import SelectColor from "../SelectColor";
 import { setProfile } from "../../slices/userSlice";
 import { IoMdColorPalette } from "react-icons/io";
+import { toast } from "react-toastify";
 
 interface HeaderProps {
     searchNote: (note: INote[]) => void;
@@ -46,7 +47,7 @@ const Header: React.FC<HeaderProps> = ({ findNotes, searchNote }) => {
     const fetchSearchResults = async () => {
         try {
             const response = await searchByTitle(search);
-            searchNote(response.data.tasks);
+            searchNote(response.data);
             findNotes(true);
         } catch (error: Error | any) {
             console.error("Erro ao buscar notas:", error);
@@ -70,6 +71,10 @@ const Header: React.FC<HeaderProps> = ({ findNotes, searchNote }) => {
         if (search.trim() !== "") {
             fetchSearchResults();
         }
+        if (search.trim() === "") {
+            toast.info("Digite algo para pesquisar");
+            // Exibir mensagem de aviso se o campo de pesquisa estiver vazio
+        }
     };
 
     const handleColorSelect = async (color: string) => {
@@ -78,7 +83,7 @@ const Header: React.FC<HeaderProps> = ({ findNotes, searchNote }) => {
 
         try {
             const response = await fetchTasksByColor(color);
-            searchNote(response!.data.tasks);
+            searchNote(response!.data);
             findNotes(true);
         } catch (error) {
             console.error("Erro ao buscar tarefas por cor:", error);
@@ -90,7 +95,7 @@ const Header: React.FC<HeaderProps> = ({ findNotes, searchNote }) => {
     const restoreOriginalNotes = async () => {
         try {
             const response = await getNotes();
-            searchNote(response.data.tasks);
+            searchNote(response!.data);
             findNotes(false);
         } catch (error) {
             console.error("Erro ao restaurar notas originais:", error);
@@ -133,6 +138,7 @@ const Header: React.FC<HeaderProps> = ({ findNotes, searchNote }) => {
                         placeholder="Pesquisar notas"
                         value={search}
                         onChange={handleSearchChange}
+                        required={true}
                     />
                     <SearchButton onClick={handleSearchClick} title="Pesquisar">
                         <Hand size={20} />
@@ -159,7 +165,7 @@ const Header: React.FC<HeaderProps> = ({ findNotes, searchNote }) => {
                     {profile && (
                         <>
                             <img
-                                src={`https://ui-avatars.com/api/?name=${profile.username}`}
+                                src={`https://ui-avatars.com/api/?name=${profile.fullName}`}
                                 alt="Avatar"
                                 width={32}
                                 style={{
@@ -172,7 +178,7 @@ const Header: React.FC<HeaderProps> = ({ findNotes, searchNote }) => {
                                         "Erro ao carregar a imagem do avatar:",
                                         e
                                     );
-                                    e.currentTarget.src = `https://ui-avatars.com/api/?name=${profile.username}`;
+                                    e.currentTarget.src = `https://ui-avatars.com/api/?name=${profile.fullName}`;
                                 }}
                             />
                             {showDropdown && (

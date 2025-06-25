@@ -3,7 +3,7 @@ import AuthService from "./../services/authService";
 
 interface AuthContextType {
     isAuthenticated: boolean;
-    login: (username: string, password: string) => Promise<boolean>;
+    login: (email: string, password: string) => Promise<boolean>;
     logout: () => void;
 }
 
@@ -25,7 +25,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     );
 
     useEffect(() => {
-        const token = localStorage.getItem("auth-token");
+        const token = localStorage.getItem("token");
         const expiration = localStorage.getItem("token-expiration");
 
         if (token && expiration) {
@@ -42,10 +42,10 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }, []);
 
     const login = async (
-        username: string,
+        email: string,
         password: string
     ): Promise<boolean> => {
-        const success = await AuthService.login(username, password);
+        const success = await AuthService.login(email, password);
         setIsAuthenticated(success);
         return success;
     };

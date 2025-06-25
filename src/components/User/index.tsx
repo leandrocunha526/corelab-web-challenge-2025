@@ -149,9 +149,10 @@ const UserProfileCard: React.FC = () => {
     const profile = useSelector((state: RootState) => state.user.profile);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [username, setUsername] = useState(profile?.username || "");
+    const [fullName, setFullName] = useState(profile?.fullName || "");
     const [email, setEmail] = useState(profile?.email || "");
     const [error, setError] = useState<string | null>(null);
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
     const fetchUserProfile = async () => {
@@ -169,20 +170,33 @@ const UserProfileCard: React.FC = () => {
 
     const handleEdit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (username.length < 6) {
-            setError("O nome de usuário deve possuir mais de 6 caracteres.");
+        if (fullName.length < 6) {
+            setError("O nome completo deve possuir mais de 6 caracteres.");
             return;
         }
-        if (!username.trim()) {
-            setError("O nome de usuário não pode estar vazio.");
+        if (!fullName.trim()) {
+            setError("O nome completo não pode estar vazio.");
             return;
         }
         if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
             setError("Insira um e-mail válido.");
             return;
         }
+        if (password && password.length < 6) {
+            setError("A senha deve possuir mais de 6 caracteres.");
+            return;
+        }
+
+        // Regex para validar a senha com  1 minúscula e 1 número
+        const passwordRegex = /^(?=.*[a-z])(?=.*\d).{6,}$/;
+        if (password && !passwordRegex.test(password)) {
+            setError(
+                "A senha deve conter pelo menos uma letra minúscula e um número."
+            );
+            return;
+        }
         try {
-            await AuthService.updateUser(profile?.id || 0, { username, email });
+            await AuthService.updateUser(profile?.id || 0, { fullName, email, password });
             setShowEditModal(false);
             fetchUserProfile();
         } catch (error) {
@@ -218,16 +232,16 @@ const UserProfileCard: React.FC = () => {
         <>
             <Container>
                 <Avatar
-                    src={`https://ui-avatars.com/api/?name=${profile.username}`}
+                    src={`https://ui-avatars.com/api/?name=${profile.fullName}`}
                     alt="Avatar"
                     width={120}
                 />
                 <Greeting>
-                    <Username>Olá, {profile.username}!</Username>
+                    <Username>Olá, {profile.fullName}!</Username>
                     <p>E-mail cadastrado: {profile.email}</p>
                     <p>Seu código: {profile.id}</p>
                     <EditButton onClick={() => setShowEditModal(true)}>
-                        <MdModeEdit size={15}/> Editar
+                        <MdModeEdit size={15} /> Editar
                     </EditButton>
                     <DeleteButton onClick={() => setShowDeleteModal(true)}>
                         <MdDelete size={15} /> Excluir
@@ -246,15 +260,21 @@ const UserProfileCard: React.FC = () => {
                     <form onSubmit={handleEdit}>
                         <Input
                             type="text"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            placeholder="Nome de usuário"
+                            value={fullName}
+                            onChange={(e) => setFullName(e.target.value)}
+                            placeholder="Nome completo"
                         />
                         <Input
-                            type="text"
+                            type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Seu novo e-mail"
+                        />
+                        <Input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Nova senha (opcional)"
                         />
                         {error && <p style={{ color: "red" }}>{error}</p>}
                         <SaveButton type="submit">Salvar</SaveButton>

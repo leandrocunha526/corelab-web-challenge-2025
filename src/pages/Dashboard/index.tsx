@@ -18,7 +18,7 @@ function Dashboard() {
     const fetchNotes = async () => {
         try {
             const response = await getNotes();
-            const data = response.data.tasks;
+            const data = response.data;
             if (Array.isArray(data)) {
                 setNote(data);
             } else {
@@ -74,7 +74,7 @@ function Dashboard() {
             {findByTitle ? (
                 <Container>
                     <ContentNotes>
-                        {search.length === 0 && (
+                        {Array.isArray(search) && search.length === 0 && (
                             <p>Não há tarefas para esta busca</p>
                         )}
                         {search.map((item) => (
@@ -94,7 +94,7 @@ function Dashboard() {
                     <Container>
                         <TitleOtherAndFavorite>Favoritos</TitleOtherAndFavorite>
                         <ContentNotes>
-                            {favoriteNotes.length > 0 ? (
+                            {Array.isArray(favoriteNotes) && favoriteNotes.length > 0 ? (
                                 favoriteNotes.map((item) => (
                                     <Card
                                         key={item.id}

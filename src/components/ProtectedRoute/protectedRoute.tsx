@@ -38,7 +38,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
 
     useEffect(() => {
         const checkAuthentication = () => {
-            const token = localStorage.getItem("auth-token");
+            const token = localStorage.getItem("token");
             const expiration = localStorage.getItem("token-expiration");
 
             if (token && expiration) {
@@ -47,7 +47,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }) => {
                 if (now < expDate) {
                     setIsAuthenticated(true);
                 } else {
-                    localStorage.removeItem("auth-token");
+                    localStorage.removeItem("token");
                     localStorage.removeItem("token-expiration");
                 }
             }

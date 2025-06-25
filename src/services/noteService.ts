@@ -1,70 +1,59 @@
 import { api } from "./api";
 
+// Buscar tarefas por título
 export function searchByTitle(title: string) {
-    return api.get(`api/task/search?title=${title}`, {
+    return api.get(`/api/tasks?title=${encodeURIComponent(title)}`, {
         withCredentials: true,
     });
 }
 
+// Buscar tarefas por cor
 export function fetchTasksByColor(color: string) {
-    try {
-        // Codifica o parâmetro da cor: example %23 + hexadecimal color
-        const encodedColor = encodeURIComponent(color);
-        return api.get(`/api/task/search?color=${encodedColor}`, {
-            withCredentials: true,
-        });
-    } catch (error) {
-        console.error("Erro ao buscar tarefas por cor:", error);
-    }
-}
-
-export function updateNote(id: string, text: string) {
-    return api.put(
-        `api/task/update/${id}`,
-        {
-            text,
-        },
-        {
-            withCredentials: true,
-        }
-    );
-}
-
-export function updateColor(id: string, color: string) {
-    return api.put(
-        `api/task/color/${id}`,
-        {
-            color,
-        },
-        {
-            withCredentials: true,
-        }
-    );
-}
-
-export function deleteNote(id: string) {
-    const response = api.delete(`api/task/delete/${id}`, {
+    return api.get(`/api/tasks?color=${encodeURIComponent(color)}`, {
         withCredentials: true,
     });
-    return response;
 }
 
-export async function favorite(id: string, isFavorite: boolean) {
-    const response = await api.put(
-        `api/task/favorite/${id}`,
-        {
-            isFavorite: isFavorite,
-        },
+// Atualizar apenas o texto da tarefa
+export function updateNote(id: string, text: string) {
+    return api.patch(
+        `/api/tasks/${id}`,
+        { text },
         {
             withCredentials: true,
         }
     );
-    return response;
 }
 
+// Atualizar somente a cor da tarefa
+export function updateColor(id: string, color: string) {
+    return api.patch(
+        `/api/tasks/${id}/color`,
+        { color },
+        {
+            withCredentials: true,
+        }
+    );
+}
+
+// Deletar tarefa
+export function deleteNote(id: string) {
+    return api.delete(`/api/tasks/${id}`, {
+        withCredentials: true,
+    });
+}
+
+// Alternar favorito
+export function favorite(id: string) {
+    return api.patch(`/api/tasks/${id}/favorite`, null, {
+        withCredentials: true,
+    });
+}
+
+// Criar nova tarefa
 export async function createNote(title: string, text: string, color: string) {
-    const response = api.post(
-        "api/task/register",
+    return api.post(
+        "/api/tasks",
         {
             title: title[0].toUpperCase() + title.substring(1),
             text,
@@ -74,12 +63,11 @@ export async function createNote(title: string, text: string, color: string) {
             withCredentials: true,
         }
     );
-    return response;
 }
 
+// Buscar todas as tarefas
 export function getNotes() {
-    const notes = api.get("api/task/list", {
+    return api.get("/api/tasks", {
         withCredentials: true,
     });
-    return notes;
 }

@@ -14,7 +14,7 @@ interface SelectColorProps {
 }
 
 const arrColors: ColorItem[] = [
-    { id: 0, color: "none" }, // Adiciona a opção "none" para buscas de notes sem color
+    { id: 0, color: "" }, // Adiciona a opção "" para buscas de notes sem color (NULL)
     { id: 1, color: "#BAE2FF" },
     { id: 2, color: "#B9FFDD" },
     { id: 3, color: "#FFE8AC" },
@@ -68,7 +68,7 @@ const SelectColor: React.FC<SelectColorProps> = ({
                         key={item.id}
                         color={item.color}
                         style={
-                            item.color === "none" // Se a cor for "none", aplica um estilo diferente
+                            item.color === "" // Se a cor for "", aplica um estilo diferente
                                 ? {
                                     backgroundColor: "#fff", // Interior branco
                                     border: "2px dashed black", // Borda pontilhada preta

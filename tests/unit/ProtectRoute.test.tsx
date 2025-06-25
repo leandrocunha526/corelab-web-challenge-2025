@@ -53,7 +53,7 @@ describe("ProtectedRoute", () => {
         const expiration = new Date(
             new Date().getTime() + 5 * 60000
         ).toISOString(); // 5 minutos no futuro
-        localStorage.setItem("auth-token", token);
+        localStorage.setItem("token", token);
         localStorage.setItem("token-expiration", expiration);
 
         render(
@@ -81,7 +81,7 @@ describe("ProtectedRoute", () => {
         const expiration = new Date(
             new Date().getTime() - 5 * 60000
         ).toISOString(); // 5 minutos no passado
-        localStorage.setItem("auth-token", token);
+        localStorage.setItem("token", token);
         localStorage.setItem("token-expiration", expiration);
 
         render(
@@ -101,7 +101,7 @@ describe("ProtectedRoute", () => {
         );
 
         await waitFor(() => {
-            expect(localStorage.getItem("auth-token")).toBeNull();
+            expect(localStorage.getItem("token")).toBeNull();
             expect(localStorage.getItem("token-expiration")).toBeNull();
             expect(screen.getByText(/Sign In Page/i)).toBeInTheDocument();
         });

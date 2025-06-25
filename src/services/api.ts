@@ -2,12 +2,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const api = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "http://localhost:3333",
     withCredentials: true,
 });
 
 api.interceptors.request.use((config) => {
-    const token = localStorage.getItem("auth-token");
+    const token = localStorage.getItem("token");
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }
@@ -24,7 +24,7 @@ api.interceptors.response.use(
     (error) => {
         if (error.response && error.response.status === 401) {
             // Remove o token e redireciona para a página de login
-            localStorage.removeItem("auth-token");
+            localStorage.removeItem("token");
             localStorage.removeItem("token-expiration");
             useNavigate()("/signin");
         }
