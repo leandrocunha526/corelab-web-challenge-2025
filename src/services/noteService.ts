@@ -45,7 +45,7 @@ export function deleteNote(id: string) {
 
 // Alternar favorito
 export function favorite(id: string) {
-    return api.patch(`/api/tasks/${id}/favorite`, null, {
+    return api.patch(`/api/tasks/${id}/favorite`, {
         withCredentials: true,
     });
 }

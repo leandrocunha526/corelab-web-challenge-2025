@@ -17,7 +17,7 @@ const FavoriteNote: React.FC<FavoriteNoteProps> = ({
 
     const handleFavorite = async () => {
         try {
-            await favorite(data.id, !isFavorite);
+            await favorite(data.id);
             setIsFavorite(!isFavorite);
             onToggleFavorite(data.id);
 
