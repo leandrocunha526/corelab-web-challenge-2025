@@ -79,6 +79,15 @@ export const Input = styled.input`
         outline: none;
         box-shadow: 0px 0px 4px #4a90e2;
     }
+
+    /* Esconde o botão nativo "mostrar senha" do Edge */
+    &::-ms-reveal {
+        display: none;
+    }
+
+    &::-ms-clear {
+        display: none;
+    }
 `;
 
 export const Button = styled.button`
