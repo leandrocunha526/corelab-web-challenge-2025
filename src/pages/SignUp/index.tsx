@@ -4,7 +4,23 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "./../../assets/notes.png";
 import { RiSendPlane2Fill } from "react-icons/ri";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Container, LeftSide, LogoContainer, Logo, WelcomeText, InfoText, RightSide, FormContainer, AlertBox, Input, InputWrapper, ToggleButton, Button, Loading, RegisterLink } from "./styles";
+import {
+    Container,
+    LeftSide,
+    LogoContainer,
+    Logo,
+    WelcomeText,
+    InfoText,
+    RightSide,
+    FormContainer,
+    AlertBox,
+    Input,
+    InputWrapper,
+    ToggleButton,
+    Button,
+    Loading,
+    RegisterLink,
+} from "./styles";
 
 const SignUp = () => {
     const [fullName, setFullName] = useState<string>("");
@@ -16,6 +32,15 @@ const SignUp = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const navigate = useNavigate();
+
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d).+$/;
+    const hasUppercaseAndNumber = passwordRegex.test(password);
+    const confirmValid =
+        password === password2 && passwordRegex.test(password2);
+
+    const fullNameRegex =
+        /^([A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-záéíóúâêîôûãõç]+)(\s[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-záéíóúâêîôûãõç]+)+$/;
+    const fullNameValid = fullNameRegex.test(fullName);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -38,11 +63,6 @@ const SignUp = () => {
             return;
         }
 
-        if (password !== password2) {
-            setError("As senhas são diferentes.");
-            return;
-        }
-
         if (email.length < 6) {
             setError("O email deve ter pelo menos 6 caracteres.");
             return;
@@ -53,21 +73,28 @@ const SignUp = () => {
             return;
         }
 
-        // Validação de senha com pelo menos 1 maiúscula e 1 número
-        const passwordRegex = /^(?=.*[A-Z])(?=.*\d).+$/
-        if (!passwordRegex.test(password)) {
-            setError("A senha deve conter pelo menos uma letra maiúscula e um número.");
+        if (!hasUppercaseAndNumber) {
+            setError(
+                "A senha deve conter pelo menos uma letra maiúscula e um número."
+            );
             return;
         }
 
-        // Validação do nome completo com pelo menos dois nomes e começando com letra maiúscula
-        const fullNameRegex = /^([A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-záéíóúâêîôûãõç]+)(\s[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-záéíóúâêîôûãõç]+)+$/
-        if (!fullNameRegex.test(fullName)) {
-            setError("O nome completo deve começar com letra maiúscula e conter pelo menos dois nomes.");
+        if (!confirmValid) {
+            setError(
+                "A confirmação deve ser igual e conter pelo menos uma letra maiúscula e um número."
+            );
             return;
         }
 
-        setLoading(true); // Inicia o carregamento
+        if (!fullNameValid) {
+            setError(
+                "O nome completo deve começar com letra maiúscula e conter pelo menos dois nomes."
+            );
+            return;
+        }
+
+        setLoading(true);
 
         try {
             const registered = await AuthService.register(
@@ -88,7 +115,7 @@ const SignUp = () => {
                 "Erro ao tentar registrar. Verifique as informações e tente novamente."
             );
         } finally {
-            setLoading(false); // Finaliza o carregamento
+            setLoading(false);
         }
     };
 
@@ -112,6 +139,19 @@ const SignUp = () => {
                         onChange={(e) => setFullName(e.target.value)}
                         maxLength={255}
                     />
+                    <div
+                        style={{
+                            color: fullName ? (fullNameValid ? "green" : "red") : "",
+                            fontSize: "0.9rem",
+                            marginBottom: "8px",
+                        }}
+                    >
+                        {fullName
+                            ? fullNameValid
+                                ? "✔ Nome válido"
+                                : "✖ Deve começar com maiúscula e ter pelo menos dois nomes"
+                            : null}
+                    </div>
                     <Input
                         type="email"
                         placeholder="Seu e-mail"
@@ -139,6 +179,19 @@ const SignUp = () => {
                             )}
                         </ToggleButton>
                     </InputWrapper>
+                    <div
+                        style={{
+                            color: password ? (hasUppercaseAndNumber ? "green" : "red") : "",
+                            fontSize: "0.9rem",
+                            marginBottom: "8px",
+                        }}
+                    >
+                        {password
+                            ? hasUppercaseAndNumber
+                                ? "✔ Senha válida"
+                                : "✖ Precisa de pelo menos 1 maiúscula e 1 número"
+                            : null}
+                    </div>
                     <InputWrapper>
                         <Input
                             type={showConfirmPassword ? "text" : "password"}
@@ -162,6 +215,19 @@ const SignUp = () => {
                             )}
                         </ToggleButton>
                     </InputWrapper>
+                    <div
+                        style={{
+                            color: password2 ? (confirmValid ? "green" : "red") : "",
+                            fontSize: "0.9rem",
+                            marginBottom: "8px",
+                        }}
+                    >
+                        {password2
+                            ? confirmValid
+                                ? "✔ Confirmação correta"
+                                : "✖ Confirmação deve ser igual e válida"
+                            : null}
+                    </div>
                     <Button
                         type="submit"
                         data-testid="submit-button"
