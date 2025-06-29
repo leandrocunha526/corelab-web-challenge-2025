@@ -57,6 +57,13 @@ Principais características:
 - Provedor de Contexto: Usa o componente Context.Provider para fornecer valores aos componentes que consomem o contexto.
 - Consumidor de Contexto: Utiliza o Context.Consumer ou o hook useContext para acessar o valor do contexto.
 
+Foi utilizado para armazenar e disponibilizar dados de autenticação (como usuário logado, token, funções de login/logout) para toda a aplicação, sem precisar passar props manualmente por cada componente.
+
+Basicamente, ele:
+✅ Armazena o estado de quem está logado (ou se está logado).
+✅ Disponibiliza funções para login e logout
+✅ Permite que QUALQUER componente use esses dados chamando useContext(AuthContext).
+
 ### Redux
 
 Redux é uma biblioteca de gerenciamento de estado previsível.
@@ -68,6 +75,13 @@ Principais características:
 - Actions: Objetos que descrevem eventos que ocorreram e que podem afetar o estado.
 - Reducers: Funções que especificam como o estado muda em resposta a ações.
 - Dispatch: Função usada para enviar ações para o store, que então aciona os reducers para atualizar o estado.
+
+Fluxo:
+
+- store: guarda o user
+- actions: atualizar o usuário
+- reducer: manipula o estado
+- componente: lê o nome do usuário do store e exibe as iniciais
 
 ## Como executar
 
@@ -88,18 +102,14 @@ A principal vantagem disso é a velocidade. O Vite é capaz de carregar e compil
 
 ## TypeScript
 
-No caso do Core Notes, foi desenvolvido usando TypeScript e Styled Components. A aplicação também faz uso de componentes.
+No caso do Core Notes, foi todo escrito em TypeScript incluindo os arquivos de estilos com o Styled Components e que também foram escritos nesta linguagem (abaixo apontei a justificativa de adoção).
 
 Há várias vantagens em usar TypeScript em comparação ao JavaScript puro ao desenvolver componentes com React. Algumas das vantagens incluem:
 
 - Tipagem estática: TypeScript é um superset de JavaScript que adiciona tipagem estática ao código. Isso ajuda a evitar erros comuns de digitação e fornece suporte para autocompletar e verificação de erros durante o desenvolvimento.
-
 - Melhor escalabilidade: Com o uso de tipos estáticos, o TypeScript torna o código mais robusto e escalável, permitindo a definição de interfaces e tipos personalizados para os componentes.
-
 - Documentação automática: O TypeScript gera automaticamente documentação com base nas definições de tipos, facilitando o entendimento e uso dos componentes por outros desenvolvedores.
-
 - Integração com IDEs: O TypeScript possui um suporte excelente nas principais IDEs, como Visual Studio Code e WebStorm, proporcionando recursos avançados de autocompletar, refatoração e verificação de erros.
-
 - Maior segurança: O TypeScript ajuda a identificar possíveis erros antes mesmo de executar o código, o que ajuda a evitar erros em tempo de execução.
 
 ## Uso de componentes
@@ -137,3 +147,7 @@ Também gostaria de citar que a aplicação está usando o Styled Components, qu
 ## React Hooks
 
 Além disso, a aplicação está usando os React Hooks, que são uma adição ao React introduzida na versão 16.8. Eles permitem o uso de estado e outras funcionalidades do React em componentes funcionais, eliminando a necessidade de escrever classes e tornando-os incompatíveis com classes. Como useEffect que permite sincronizar um componente com um sistema externo, useState para acompanhar o estado do aplicativo em componentes funcionais e useRef que permite referenciar um valor que não é necessário para renderização sendo útil para acessar elementos DOM diretamente ou para manter valores que não devem causar a re-renderização do componente quando são alterados. Estes são usados na aplicação e são alguns desses hooks.
+
+## Validação
+
+Foram implementadas validações abrangentes no useEffect, por meio de estruturas condicionais, a fim de assegurar a integridade e a consistência dos dados registrados no sistema como nome completo (com pelo menos 2 palavras sendo nome, sobrenome e letra maiúscula no inicio de cada nome), e-mail válido, confirmação de senha, campos requeridos/opcionais e tamanho min/max em título/texto das tasks e registro de usuário (de acordo com que consta no banco de dados).

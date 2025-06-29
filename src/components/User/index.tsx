@@ -195,6 +195,12 @@ const UserProfileCard: React.FC = () => {
             );
             return;
         }
+        // Regex para validar o nome completo com pelo menos dois nomes e começando com letra maiúscula
+        const fullNameRegex = /^([A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-záéíóúâêîôûãõç]+)(\s[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-záéíóúâêîôûãõç]+)+$/
+        if (!fullNameRegex.test(fullName)) {
+            setError("O nome completo deve começar com letra maiúscula e conter pelo menos dois nomes.");
+            return;
+        }
         try {
             await AuthService.updateUser(profile?.id || 0, { fullName, email, password });
             setShowEditModal(false);
@@ -263,18 +269,21 @@ const UserProfileCard: React.FC = () => {
                             value={fullName}
                             onChange={(e) => setFullName(e.target.value)}
                             placeholder="Nome completo"
+                            maxLength={255}
                         />
                         <Input
                             type="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Seu novo e-mail"
+                            maxLength={255}
                         />
                         <Input
                             type="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Nova senha (opcional)"
+                            maxLength={255}
                         />
                         {error && <p style={{ color: "red" }}>{error}</p>}
                         <SaveButton type="submit">Salvar</SaveButton>

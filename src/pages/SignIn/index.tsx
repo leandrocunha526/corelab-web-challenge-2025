@@ -96,6 +96,7 @@ const SignIn: React.FC<SignInProps> = ({ onLogin }) => {
                         placeholder="Seu e-mail"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        maxLength={255}
                     />
                     <InputWrapper>
                         <Input
@@ -103,11 +104,13 @@ const SignIn: React.FC<SignInProps> = ({ onLogin }) => {
                             placeholder="Digite sua senha"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            maxLength={255}
                         />
                         <ToggleButton
                             type="button"
                             onClick={() => setShowPassword((prev) => !prev)}
                             title="Mostrar senha"
+                            aria-label="Mostrar senha"
                         >
                             {showPassword ? (
                                 <FaEyeSlash size={20} />

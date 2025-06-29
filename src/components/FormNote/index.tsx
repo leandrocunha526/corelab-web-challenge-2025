@@ -42,8 +42,10 @@ export const FormCreateNote = ({ onNoteCreated }: FormCreateNoteProps) => {
                 <div>
                     <Input
                         placeholder="Título"
+                        type="text"
                         value={title}
                         minLength={5}
+                        maxLength={255}
                         required
                         onChange={(e) => setTitle(e.target.value)}
                     />
@@ -55,6 +57,7 @@ export const FormCreateNote = ({ onNoteCreated }: FormCreateNoteProps) => {
                     value={text}
                     required
                     minLength={5}
+                    maxLength={256}
                     onChange={(e) => setText(e.target.value)}
                 />
 

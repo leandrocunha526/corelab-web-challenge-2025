@@ -60,6 +60,13 @@ const SignUp = () => {
             return;
         }
 
+        // Validação do nome completo com pelo menos dois nomes e começando com letra maiúscula
+        const fullNameRegex = /^([A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-záéíóúâêîôûãõç]+)(\s[A-ZÁÉÍÓÚÂÊÎÔÛÃÕÇ][a-záéíóúâêîôûãõç]+)+$/
+        if (!fullNameRegex.test(fullName)) {
+            setError("O nome completo deve começar com letra maiúscula e conter pelo menos dois nomes.");
+            return;
+        }
+
         setLoading(true); // Inicia o carregamento
 
         try {
@@ -103,12 +110,14 @@ const SignUp = () => {
                         placeholder="Seu nome completo"
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
+                        maxLength={255}
                     />
                     <Input
                         type="email"
                         placeholder="Seu e-mail"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        maxLength={255}
                     />
                     <InputWrapper>
                         <Input
@@ -116,6 +125,7 @@ const SignUp = () => {
                             placeholder="Sua senha maior que 6 dígitos"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            maxLength={255}
                         />
                         <ToggleButton
                             type="button"
@@ -135,6 +145,7 @@ const SignUp = () => {
                             placeholder="Confirme sua senha"
                             value={password2}
                             onChange={(e) => setPassword2(e.target.value)}
+                            maxLength={255}
                         />
                         <ToggleButton
                             type="button"
@@ -142,6 +153,7 @@ const SignUp = () => {
                                 setShowConfirmPassword((prev) => !prev)
                             }
                             title="Mostrar senha"
+                            aria-label="Mostrar senha"
                         >
                             {showConfirmPassword ? (
                                 <FaEyeSlash size={20} />
