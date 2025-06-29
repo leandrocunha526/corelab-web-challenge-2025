@@ -1,4 +1,4 @@
-# O projeto Core Note
+# Sobre o projeto Core Note
 
 ## Introdução ao desenvolvimento
 
@@ -60,9 +60,10 @@ Principais características:
 Foi utilizado para armazenar e disponibilizar dados de autenticação (como usuário logado, token, funções de login/logout) para toda a aplicação, sem precisar passar props manualmente por cada componente.
 
 Basicamente, ele:
-✅ Armazena o estado de quem está logado (ou se está logado).
-✅ Disponibiliza funções para login e logout
-✅ Permite que QUALQUER componente use esses dados chamando useContext(AuthContext).
+
+- ✅ Armazena o estado de quem está logado (ou se está logado).
+- ✅ Disponibiliza funções para login e logout
+- ✅ Permite que QUALQUER componente use esses dados chamando useContext(AuthContext).
 
 ### Redux
 
