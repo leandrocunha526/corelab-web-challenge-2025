@@ -34,6 +34,11 @@ const Card: React.FC<CardNotesProps> = ({
     const [show, setShow] = useState(false);
     const [edit, setEdit] = useState(false);
 
+    const capitalizeFirst = (text: string) => {
+        if (!text) return "";
+        return text.charAt(0).toUpperCase() + text.slice(1);
+    };
+
     return (
         <Container color={data.color}>
             <TopNote>
@@ -41,7 +46,7 @@ const Card: React.FC<CardNotesProps> = ({
                 <FavoriteNote data={data} onToggleFavorite={onToggleFavorite} />
             </TopNote>
             <Note>
-                {!edit && data.text}
+                {!edit && capitalizeFirst(data.text)}
                 {edit && (
                     <EditNote
                         data={data}

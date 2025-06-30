@@ -7,7 +7,6 @@ export const Note = styled.div`
     color: #4f4f4b;
     height: 100%;
     margin-top: 10px;
-    text-transform: capitalize;
 `;
 
 export const Container = styled.div`
