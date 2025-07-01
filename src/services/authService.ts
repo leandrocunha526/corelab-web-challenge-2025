@@ -77,11 +77,7 @@ const AuthService = {
             const token = localStorage.getItem("token");
             if (!token) throw new Error("Usuário não autenticado");
 
-            const response = await api.get("/api/profile", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const response = await api.get("/api/profile");
 
             if (response.status === 200) {
                 return response.data;
@@ -104,7 +100,6 @@ const AuthService = {
                 updatedData,
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
                     },
                 }
@@ -131,7 +126,6 @@ const AuthService = {
 
             const response = await api.delete(`/api/users/${userId}`, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
             });

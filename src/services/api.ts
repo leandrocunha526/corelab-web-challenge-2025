@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const api = axios.create({
     baseURL: "http://localhost:3333",
@@ -26,7 +25,8 @@ api.interceptors.response.use(
             // Remove o token e redireciona para a página de login
             localStorage.removeItem("token");
             localStorage.removeItem("token-expiration");
-            useNavigate()("/signin");
+            window.location.href = "/signin"; // redireciona para login
+
         }
         return Promise.reject(error);
     }
